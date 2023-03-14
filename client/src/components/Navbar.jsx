@@ -13,6 +13,7 @@ import { setMode } from "state";
 import { useTheme, AppBar, Toolbar, IconButton, InputBase } from "@mui/material";
 
 const Navbar = ({
+    user,
     isSidebarOpen,
     setIsSidebarOpen
 }) => {

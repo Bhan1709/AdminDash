@@ -31,6 +31,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
+import UserImage from './UserImage';
 
 const navItems = [
     {
@@ -92,6 +93,7 @@ const navItems = [
 ];
 
 const Sidebar = ({
+    user,
     isNonMobile,
     drawerWidth,
     isSidebarOpen,
@@ -185,6 +187,34 @@ const Sidebar = ({
                                 );
                             })}
                         </List>
+                    </Box>
+                    <Box>
+                        <Divider />
+                        <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
+                            <UserImage image={`p5.jpeg`} />
+                            <Box textAlign="left">
+                                <Typography
+                                    fontWeight="bold"
+                                    fontSize="0.9rem"
+                                    sx={{ color: theme.palette.secondary[100] }}
+                                >
+                                    {user.name}
+                                </Typography>
+                                <Typography
+                                    fontSize="0.8rem"
+                                    sx={{ color: theme.palette.secondary[200] }}
+                                >
+                                    {user.occupation}
+                                </Typography>
+                            </Box>
+                            <SettingsOutlined
+                                sx={{
+                                    color: theme.palette.secondary[300],
+                                    fontSize: "25px"
+                                }}
+                            />
+
+                        </FlexBetween>
                     </Box>
                 </Drawer>
             )}

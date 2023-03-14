@@ -8,12 +8,16 @@ import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
 import managementRoutes from "./routes/management.js";
 import salesRoutes from "./routes/sales.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 /*data imports
 import User from "./models/User.js";
 import { dataUser } from "./data/index.js";*/
 
 /*Configuration*/
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 app.use(helmet());
@@ -22,6 +26,7 @@ app.use(morgan("common"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 /*Routes*/
 app.use("/client", clientRoutes);
