@@ -1,21 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Divider,
     Drawer,
     IconButton,
     List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
     Typography,
-    useTheme
+    useTheme,
+    Avatar
 } from '@mui/material';
 import {
     SettingsOutlined,
     ChevronLeft,
-    ChevronRightOutlined,
     HomeOutlined,
     ShoppingCartOutlined,
     Groups2Outlined,
@@ -26,71 +22,78 @@ import {
     CalendarMonthOutlined,
     AdminPanelSettingsOutlined,
     TrendingUpOutlined,
-    PieChartOutlined
+    PieChartOutlined,
 } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
-import UserImage from './UserImage';
+import SidebarSection from './SidebarSection';
 
-const navItems = [
-    {
-        text: "Dashboard",
-        icon: <HomeOutlined />
-    },
-    {
-        text: "Client Facing",
-        icon: null
-    },
-    {
-        text: "Products",
-        icon: <ShoppingCartOutlined />
-    },
-    {
-        text: "Customers",
-        icon: <Groups2Outlined />
-    },
-    {
-        text: "Transactions",
-        icon: <ReceiptLongOutlined />
-    },
-    {
-        text: "Geography",
-        icon: <PublicOutlined />
-    },
-    {
-        text: "Sales",
-        icon: null
-    },
-    {
-        text: "Overview",
-        icon: <PointOfSaleOutlined />
-    },
-    {
-        text: "Daily",
-        icon: <TodayOutlined />
-    },
-    {
-        text: "Monthly",
-        icon: <CalendarMonthOutlined />
-    },
-    {
-        text: "Breakdown",
-        icon: <PieChartOutlined />
-    },
-    {
-        text: "Management",
-        icon: null
-    },
-    {
-        text: "Admin",
-        icon: <AdminPanelSettingsOutlined />
-    },
-    {
-        text: "Performance",
-        icon: <TrendingUpOutlined />
-    },
-];
+const homeSection = {
+    heading: null,
+    items: [
+        {
+            text: "Dashboard",
+            icon: <HomeOutlined />
+        },
+    ]
+};
+
+const clientSection = {
+    heading: "Client Facing",
+    items: [
+        {
+            text: "Products",
+            icon: <ShoppingCartOutlined />
+        },
+        {
+            text: "Customers",
+            icon: <Groups2Outlined />
+        },
+        {
+            text: "Transactions",
+            icon: <ReceiptLongOutlined />
+        },
+        {
+            text: "Geography",
+            icon: <PublicOutlined />
+        },
+    ]
+};
+
+const salesSection = {
+    heading: "Sales",
+    items: [
+        {
+            text: "Overview",
+            icon: <PointOfSaleOutlined />
+        },
+        {
+            text: "Daily",
+            icon: <TodayOutlined />
+        },
+        {
+            text: "Monthly",
+            icon: <CalendarMonthOutlined />
+        },
+        {
+            text: "Breakdown",
+            icon: <PieChartOutlined />
+        },
+    ]
+};
+
+const managementSection = {
+    heading: "Management",
+    items: [
+        {
+            text: "Admin",
+            icon: <AdminPanelSettingsOutlined />
+        },
+        {
+            text: "Performance",
+            icon: <TrendingUpOutlined />
+        },
+    ]
+};
 
 const Sidebar = ({
     user,
@@ -99,14 +102,11 @@ const Sidebar = ({
     isSidebarOpen,
     setIsSidebarOpen
 }) => {
-    const { pathname } = useLocation();
-    const [active, setActive] = useState("");
-    const navigate = useNavigate();
     const theme = useTheme();
-
-    useEffect(() => {
-        setActive(pathname.substring(1));
-    }, [pathname]);
+    const [isDashboardSection, setIsDashboardSection] = useState(true);
+    const [isClientSection, setIsClientSection] = useState(false);
+    const [isSalesSection, setIsSalesSection] = useState(false);
+    const [isManagementSection, setIsManagementSection] = useState(false);
 
     return (
         <Box component="nav">
@@ -127,7 +127,7 @@ const Sidebar = ({
                         },
                     }}
                 >
-                    <Box width="100%">
+                    <Box width="100%" paddingBottom="5rem">
                         <Box m="1.5rem 2rem 2rem 3rem">
                             <FlexBetween color={theme.palette.secondary.main}>
                                 <Box display="flex" alignItems="center" gap="0.5rem">
@@ -143,55 +143,41 @@ const Sidebar = ({
                             </FlexBetween>
                         </Box>
                         <List>
-                            {navItems.map(({ text, icon }) => {
-                                if (!icon) {
-                                    return (
-                                        <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
-                                            {text}
-                                        </Typography>
-                                    );
-                                }
-                                const lcText = text.toLowerCase();
-                                return (
-                                    <ListItem key={text} disablePadding>
-                                        <ListItemButton
-                                            onClick={() => {
-                                                navigate(`/${lcText}`);
-                                                setActive(lcText);
-                                            }}
-                                            sx={{
-                                                backgroundColor: active === lcText
-                                                    ? theme.palette.secondary[300]
-                                                    : "transparent",
-                                                color: active === lcText
-                                                    ? theme.palette.primary[600]
-                                                    : theme.palette.secondary[100],
-                                            }}
-                                        >
-                                            <ListItemIcon
-                                                sx={{
-                                                    ml: "2rem",
-                                                    color: active === lcText
-                                                        ? theme.palette.primary[600]
-                                                        : theme.palette.secondary[200],
-                                                }}
-                                            >
-                                                {icon}
-                                            </ListItemIcon>
-                                            <ListItemText primary={text} />
-                                            {active === lcText && (
-                                                <ChevronRightOutlined sx={{ ml: "auto" }} />
-                                            )}
-                                        </ListItemButton>
-                                    </ListItem>
-                                );
-                            })}
+                            <SidebarSection
+                                content={homeSection}
+                                state={isDashboardSection}
+                                setState={setIsDashboardSection}
+                            />
+                            <SidebarSection
+                                content={clientSection}
+                                state={isClientSection}
+                                setState={setIsClientSection}
+                            />
+                            <SidebarSection
+                                content={salesSection}
+                                state={isSalesSection}
+                                setState={setIsSalesSection}
+                            />
+                            <SidebarSection
+                                content={managementSection}
+                                state={isManagementSection}
+                                setState={setIsManagementSection}
+                            />
                         </List>
                     </Box>
-                    <Box>
+                    <Box
+                        position="fixed"
+                        bottom="0"
+                        backgroundColor={theme.palette.background.alt}
+                        width="inherit"
+                    >
                         <Divider />
-                        <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
-                            <UserImage image={`p5.jpeg`} />
+                        <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem" paddingBottom="1rem">
+                            <Avatar
+                                alt={user.name}
+                                src={`${process.env.REACT_APP_BASE_URL}/assets/p5.jpeg`}
+                                sx={{ width: "45px", height: "45px" }}
+                            />
                             <Box textAlign="left">
                                 <Typography
                                     fontWeight="bold"
@@ -213,7 +199,6 @@ const Sidebar = ({
                                     fontSize: "25px"
                                 }}
                             />
-
                         </FlexBetween>
                     </Box>
                 </Drawer>
