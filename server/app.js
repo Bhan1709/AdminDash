@@ -11,9 +11,11 @@ import salesRoutes from "./routes/sales.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
-/*data imports
-import User from "./models/User.js";
-import { dataUser } from "./data/index.js";*/
+/* Data Imports */
+/*import User from "./models/User.js";
+import { dataUser, dataProduct, dataProductStat } from "./data/index.js";
+import Product from "./models/Product.js";
+import ProductStat from "./models/ProductStat.js";*/
 
 /*Configuration*/
 const __filename = fileURLToPath(import.meta.url);
@@ -43,5 +45,7 @@ mongoose.connect(process.env.MONGO_URL, {
     app.listen(port, () => console.log(`Server running on Port: ${port}`));
 
     /* Only on First Run 
-    User.insertMany(dataUser);*/
+    User.insertMany(dataUser);
+    Product.insertMany(dataProduct);
+    ProductStat.insertMany(dataProductStat);*/
 }).catch(err => console.log(`${err} did not connect.`));
