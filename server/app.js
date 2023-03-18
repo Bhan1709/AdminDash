@@ -12,10 +12,16 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 /* Data Imports */
-/*import User from "./models/User.js";
-import { dataUser, dataProduct, dataProductStat } from "./data/index.js";
-import Product from "./models/Product.js";
-import ProductStat from "./models/ProductStat.js";*/
+//import User from "./models/User.js";
+import {
+  dataUser,
+  dataProduct,
+  dataProductStat,
+  dataTransaction,
+} from "./data/index.js";
+/*import Product from "./models/Product.js";
+import ProductStat from "./models/ProductStat.js";
+import Transaction from "./models/Transaction.js";*/
 
 /*Configuration*/
 const __filename = fileURLToPath(import.meta.url);
@@ -38,14 +44,18 @@ app.use("/sales", salesRoutes);
 
 /*Mongoose Setup*/
 const port = process.env.PORT || 9000;
-mongoose.connect(process.env.MONGO_URL, {
+mongoose
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}).then(() => {
+  })
+  .then(() => {
     app.listen(port, () => console.log(`Server running on Port: ${port}`));
 
     /* Only on First Run 
     User.insertMany(dataUser);
     Product.insertMany(dataProduct);
-    ProductStat.insertMany(dataProductStat);*/
-}).catch(err => console.log(`${err} did not connect.`));
+    ProductStat.insertMany(dataProductStat);
+    Transaction.insertMany(dataTransaction);*/
+  })
+  .catch((err) => console.log(`${err} did not connect.`));
