@@ -18,10 +18,12 @@ import {
   dataProduct,
   dataProductStat,
   dataTransaction,
+  dataOverallStat,
 } from "./data/index.js";
 /*import Product from "./models/Product.js";
 import ProductStat from "./models/ProductStat.js";
-import Transaction from "./models/Transaction.js";*/
+import Transaction from "./models/Transaction.js";
+import OverallStat from "./models/OverallStat.js";*/
 
 /*Configuration*/
 const __filename = fileURLToPath(import.meta.url);
@@ -56,6 +58,7 @@ mongoose
     User.insertMany(dataUser);
     Product.insertMany(dataProduct);
     ProductStat.insertMany(dataProductStat);
-    Transaction.insertMany(dataTransaction);*/
+    Transaction.insertMany(dataTransaction);
+    OverallStat.insertMany(dataOverallStat);*/
   })
   .catch((err) => console.log(`${err} did not connect.`));
